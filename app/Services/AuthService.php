@@ -9,11 +9,11 @@ use Illuminate\Support\Str;
 
 class AuthService
 {
-    const MAX_ATTEMPTS = 10;
-    const SECONDS_LOCKED = 3600;
-
+    CONST MAX_ATTEMPTS = 10;
+    CONST SECONDS_LOCKED = 3600;
     CONST PASSWORD_GRANT_CLIENT_ID = 2;
     CONST GRANT_TYPE = 'password';
+    CONST HAS_TRANSACTION = true;
 
     public $userRepository;
     protected $client;

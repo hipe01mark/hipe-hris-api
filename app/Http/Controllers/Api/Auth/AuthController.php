@@ -51,7 +51,9 @@ class AuthController extends Controller
 
             $this->authService->clearFailedAttempts();
             $token = $this->authService->generateAuthToken();
-            return responder()->success(['token' => $token])->respond();
+            return responder()
+                ->success(['token' => $token])
+                ->respond();
         });
     }
 }
