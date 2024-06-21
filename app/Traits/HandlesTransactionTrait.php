@@ -25,13 +25,12 @@ trait HandlesTransactionTrait
     /**
      * Run a callback within a transaction and handle exceptions
      */
-    private function runInTransaction(callable $callback, bool $hasTransaction = true): JsonResponse
+    private function runInTransaction(callable $callback): JsonResponse
     {
-        $hasTransaction ?? DB::beginTransaction();
+        DB::beginTransaction();
         try {
             $result = $callback();
-            $hasTransaction ?? DB::commit();
-            
+            DB::commit();
             return $result;
         } catch (\Exception $e) {
             return $this->handleException($e);
