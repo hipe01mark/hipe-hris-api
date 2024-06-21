@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use App\Http\Requests\Api\Auth\LoginRequest;
+use App\Models\User;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\RateLimiter;
@@ -13,9 +14,9 @@ class AuthService
     CONST SECONDS_LOCKED = 3600;
     CONST PASSWORD_GRANT_CLIENT_ID = 2;
     CONST GRANT_TYPE = 'password';
+    CONST DEFAULT_TOKEN_NAME = 'hipe-hris-api';
     CONST HAS_TRANSACTION = true;
 
-    public $userRepository;
     protected $client;
 
     /**
@@ -35,7 +36,6 @@ class AuthService
     {
         return auth()->attempt($credentials);
     }
-
     
     /**
      * Generate user token
@@ -44,7 +44,19 @@ class AuthService
     {
         /** @var User $user */
         $user = auth()->user();
-        return $user->createToken('hipe-hris-api')->accessToken;
+        return $user
+            ->createToken('hipe-hris-api')
+            ->accessToken;
+    }
+
+    /**
+     * Revoke user token
+     */
+    public function revokeToken(): void
+    {
+        /** @var User $user */
+        $user = auth()->user();
+        $user->token()->revoke();
     }
 
     /**

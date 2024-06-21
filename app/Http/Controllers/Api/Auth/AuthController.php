@@ -29,6 +29,24 @@ class AuthController extends Controller
     }
 
     /**
+     * Get the authenticated User.
+     */
+    public function me(): JsonResponse
+    {
+        /** @var User $user */
+        $user = auth()->user();
+        $authUser = $user->load([
+            // NOTE: relationship to follow
+            // 'roles.permissions', 
+            // 'information.department', 
+            // 'information.position',
+            // 'information.branch',
+        ]);
+
+        return responder()->success($authUser)->respond();
+    }
+
+    /**
      * Authenticate user.
      */
     public function login(LoginRequest $request): JsonResponse
@@ -55,5 +73,17 @@ class AuthController extends Controller
                 ->success(['token' => $token])
                 ->respond();
         });
+    }
+
+    /**
+     * Get the authenticated User.
+     */
+    public function logout(): JsonResponse
+    {
+        $this->authService->revokeToken();
+
+        return responder()->success([
+            'message' => trans('auth.logout')
+        ])->respond();
     }
 }
