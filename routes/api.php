@@ -24,5 +24,10 @@ Route::prefix('v1')->group(function () {
             Route::post('forgot/password/reset', [ForgotPasswordController::class, 'reset']);
             Route::get('forgot/password/reset/link', [ForgotPasswordController::class, 'tokenResetLink'])->name('password.reset');
         });
+
+        Route::middleware(['auth:api'])->group(function () {
+            Route::post('/logout', [AuthController::class, 'logout']);
+            Route::get('/me', [AuthController::class, 'me']);
+        });
     });
 });
