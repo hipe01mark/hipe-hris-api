@@ -36,4 +36,16 @@ trait HandlesTransactionTrait
             return $this->handleException($e);
         }
     }
+
+    /**
+     * Run a callback without a transaction and handle exceptions
+     */
+    private function runWithoutTransaction(callable $callback): JsonResponse
+    {
+        try {
+            return $callback();
+        } catch (\Exception $e) {
+            return $this->handleException($e);
+        }
+    }
 }

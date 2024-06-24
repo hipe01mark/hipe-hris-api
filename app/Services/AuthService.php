@@ -10,14 +10,14 @@ use Illuminate\Support\Str;
 
 class AuthService
 {
+    protected $client;
+
     CONST MAX_ATTEMPTS = 10;
     CONST SECONDS_LOCKED = 3600;
     CONST PASSWORD_GRANT_CLIENT_ID = 2;
     CONST GRANT_TYPE = 'password';
     CONST DEFAULT_TOKEN_NAME = 'hipe-hris-api';
     CONST HAS_TRANSACTION = true;
-
-    protected $client;
 
     /**
      * User service constructor
