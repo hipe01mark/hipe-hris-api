@@ -37,7 +37,7 @@ class AuthController extends Controller
         $user = auth()->user();
         $authUser = $user->load([
             // NOTE: relationship to follow
-            // 'roles.permissions', 
+            'roles.permissions', 
             // 'information.department', 
             // 'information.position',
             // 'information.branch',

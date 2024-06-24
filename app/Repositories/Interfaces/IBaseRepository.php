@@ -4,10 +4,17 @@ namespace App\Repositories\Interfaces;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface IBaseRepository
 {
     public function all(array $columns = ['*'], array $relations = []): Collection;
+    public function paginate(
+        int $perPage = 15,
+        int $page = 1,
+        array $relations = [],
+        array $columns = ['*']
+    ): LengthAwarePaginator;
     public function allTrashed(): Collection;
     public function findById(
         int $modelId, 

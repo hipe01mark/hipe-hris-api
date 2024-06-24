@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\ForgotPasswordController;
 use App\Http\Controllers\Api\Auth\VerifyEmailController;
+use App\Http\Controllers\Api\UserAttendanceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,6 +38,14 @@ Route::prefix('v1')->group(function () {
             Route::get('/email/verify/resend', [VerifyEmailController::class, 'resend'])
                 ->middleware(['throttle:6,1'])
                 ->name('verification.send');
+        });
+    });
+
+    Route::prefix('user')->group(function () {
+        Route::middleware(['auth:api'])->group(function () {
+            Route::apiResource('attendances', UserAttendanceController::class);
+            Route::post('attendances/time-in', [UserAttendanceController::class, 'timeIn']);
+            Route::post('attendances/time-out', [UserAttendanceController::class, 'timeOut']);
         });
     });
 });
