@@ -15,7 +15,7 @@ class PasswordResetRepository extends BaseRepository implements IPasswordResetRe
     const ONE_HOUR = 1;
 
     /**
-     * constructor
+     * onstructor
      */
     public function __construct(PasswordReset $model)
     {

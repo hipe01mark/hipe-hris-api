@@ -5,9 +5,11 @@ namespace App\Repositories;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
 use App\Repositories\Interfaces\IBaseRepository;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class BaseRepository implements IBaseRepository
 {
+    CONST DEFAULT_PAGE_NAME = 'page';
     public $model;
 
     /**
@@ -26,6 +28,26 @@ class BaseRepository implements IBaseRepository
         return $this->model
             ->with($relations)
             ->get($columns);
+    }
+
+    /**
+     * Paginate results.
+     */
+    public function paginate(
+        int $perPage = 15,
+        int $page = 1,
+        array $relations = [],
+        array $columns = ['*'],
+    ): LengthAwarePaginator
+    {
+        return $this->model
+            ->with($relations)
+            ->paginate(
+                $perPage,
+                $columns,
+                self::DEFAULT_PAGE_NAME,
+                $page
+            );
     }
 
     /**
