@@ -9,8 +9,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class BaseRepository implements IBaseRepository
 {
-    CONST DEFAULT_PAGE_NAME = 'page';
     public $model;
+
+    CONST DEFAULT_PAGE_NAME = 'page';
 
     /**
      * BaseRepository constructor

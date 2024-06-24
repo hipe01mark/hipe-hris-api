@@ -39,15 +39,13 @@ class CreateUserInformationTable extends Migration
             $table->tinyInteger('religion');
             $table->tinyInteger('marital_status');
             $table->tinyInteger('status');
-            
+
             $table->softDeletes();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {

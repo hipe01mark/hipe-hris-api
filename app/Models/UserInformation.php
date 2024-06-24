@@ -14,7 +14,7 @@ class UserInformation extends Model
     /**
      * The attributes that are not mass assignable.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $guarded = [];
 
@@ -28,14 +28,14 @@ class UserInformation extends Model
     /**
      * The accessors to append to the model's array form.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $appends = ['full_name'];
 
     /**
      * The attributes that should be mutated to dates.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $dates = [
         'birth_date',
@@ -53,7 +53,7 @@ class UserInformation extends Model
     /**
      * Get full name of the student
      */
-    public function getFullNameAttribute() : string
+    public function getFullNameAttribute(): string
     {
         $fullNameArray = [
             $this->first_name,

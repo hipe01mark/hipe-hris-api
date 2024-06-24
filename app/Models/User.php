@@ -8,6 +8,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -50,7 +52,7 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * Check if token is expired
      */
-    public function isTokenExpired()
+    public function isTokenExpired(): bool
     {
         $tokenExpired = 
             $this->email_verified_at !== null && 
@@ -64,7 +66,7 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * Get the information associated with the user.
      */
-    public function information()
+    public function information(): HasOne
     {
         return $this->hasOne(UserInformation::class);
     }
@@ -72,7 +74,7 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * Get the attendance associated with the user
      */
-    public function attendances()
+    public function attendances(): HasMany
     {
         return $this->hasMany(UserAttendance::class);
     }
