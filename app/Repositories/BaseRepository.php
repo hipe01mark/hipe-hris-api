@@ -38,7 +38,7 @@ class BaseRepository implements IBaseRepository
         int $perPage = 15,
         int $page = 1,
         array $relations = [],
-        array $columns = ['*'],
+        array $columns = ['*']
     ): LengthAwarePaginator
     {
         return $this->model

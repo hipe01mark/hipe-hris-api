@@ -36,11 +36,10 @@ class AuthController extends Controller
         /** @var User $user */
         $user = auth()->user();
         $authUser = $user->load([
-            // NOTE: relationship to follow
             'roles.permissions', 
-            // 'information.department', 
-            // 'information.position',
-            // 'information.branch',
+            'information.department', 
+            'information.position',
+            'information.branch',
         ]);
 
         return responder()->success($authUser)->respond();

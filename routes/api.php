@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\ForgotPasswordController;
 use App\Http\Controllers\Api\Auth\VerifyEmailController;
 use App\Http\Controllers\Api\UserAttendanceController;
+use App\Http\Controllers\Api\UserLeaveController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,6 +47,10 @@ Route::prefix('v1')->group(function () {
             Route::apiResource('attendances', UserAttendanceController::class);
             Route::post('attendances/time-in', [UserAttendanceController::class, 'timeIn']);
             Route::post('attendances/time-out', [UserAttendanceController::class, 'timeOut']);
+
+            Route::apiResource('leaves', UserLeaveController::class)->parameters([
+                'leaves' => 'leave',
+            ]);
         });
     });
 });
