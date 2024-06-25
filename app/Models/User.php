@@ -24,8 +24,8 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $guard_name = 'api';
 
     /**
-     * The attributes that are mass assignable.
-     *
+     * The attributes that are not mass assignable.
+     * 
      * @var array<int, string>
      */
     protected $guarded = [];
@@ -77,5 +77,13 @@ class User extends Authenticatable implements MustVerifyEmail
     public function attendances(): HasMany
     {
         return $this->hasMany(UserAttendance::class);
+    }
+
+    /**
+     * Get the leaves associated with the user
+     */
+    public function leaves(): HasMany
+    {
+        return $this->hasMany(UserLeave::class);
     }
 }

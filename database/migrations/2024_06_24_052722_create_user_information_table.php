@@ -25,6 +25,9 @@ class CreateUserInformationTable extends Migration
 
             $table->unsignedBigInteger('branch_id')->index('user_information_branch_id_foreign');
             $table->foreign('branch_id')->references('id')->on('branches');
+
+            $table->unsignedBigInteger('status_id')->index('user_information_status_id_foreign')->default(4);
+            $table->foreign('status_id')->references('id')->on('statuses');
             
             $table->string('first_name');
             $table->string('middle_name')->nullable();
@@ -38,7 +41,6 @@ class CreateUserInformationTable extends Migration
             $table->tinyInteger('nationality');
             $table->tinyInteger('religion');
             $table->tinyInteger('marital_status');
-            $table->tinyInteger('status');
 
             $table->softDeletes();
         });
