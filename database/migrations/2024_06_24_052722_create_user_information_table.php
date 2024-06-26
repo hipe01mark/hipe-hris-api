@@ -34,7 +34,6 @@ class CreateUserInformationTable extends Migration
             $table->string('last_name');
             $table->tinyInteger('gender');
             $table->bigInteger('mobile_number')->unsigned()->unique();
-            $table->char('position')->nullable();
             $table->date('birth_date');
             $table->date('hired_date');
             $table->date('resigned_date')->nullable();

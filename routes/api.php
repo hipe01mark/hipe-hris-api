@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\ForgotPasswordController;
 use App\Http\Controllers\Api\Auth\VerifyEmailController;
+use App\Http\Controllers\Api\LeaveActionController;
 use App\Http\Controllers\Api\UserAttendanceController;
 use App\Http\Controllers\Api\UserLeaveController;
 use Illuminate\Support\Facades\Route;
@@ -19,8 +20,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('v1')->group(function () {
-    Route::prefix('auth')->group(function () {
-        Route::middleware(['guest'])->group(function () {
+    Route::middleware(['guest'])->group(function () {
+        Route::prefix('auth')->group(function () {
             Route::post('/login', [AuthController::class, 'login']);
 
             Route::post('forgot/password', [ForgotPasswordController::class, 'forgot']);
@@ -31,8 +32,10 @@ Route::prefix('v1')->group(function () {
                 ->middleware(['signed', 'throttle:6,1'])
                 ->name('verification.verify');
         });
+    });
 
-        Route::middleware(['auth:api'])->group(function () {
+    Route::middleware(['auth:api'])->group(function () {
+        Route::prefix('auth')->group(function () {
             Route::post('/logout', [AuthController::class, 'logout']);
             Route::get('/me', [AuthController::class, 'me']);
 
@@ -40,10 +43,8 @@ Route::prefix('v1')->group(function () {
                 ->middleware(['throttle:6,1'])
                 ->name('verification.send');
         });
-    });
 
-    Route::prefix('user')->group(function () {
-        Route::middleware(['auth:api'])->group(function () {
+        Route::prefix('user')->group(function () {
             Route::apiResource('attendances', UserAttendanceController::class);
             Route::post('attendances/time-in', [UserAttendanceController::class, 'timeIn']);
             Route::post('attendances/time-out', [UserAttendanceController::class, 'timeOut']);
@@ -51,6 +52,11 @@ Route::prefix('v1')->group(function () {
             Route::apiResource('leaves', UserLeaveController::class)->parameters([
                 'leaves' => 'leave',
             ]);
+        });
+
+        Route::prefix('leave-action')->group(function () {
+            Route::patch('approve/{leave}', [LeaveActionController::class, 'approve']);
+            Route::patch('decline/{leave}', [LeaveActionController::class, 'decline']);
         });
     });
 });
