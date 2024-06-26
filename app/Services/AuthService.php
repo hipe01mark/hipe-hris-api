@@ -50,6 +50,16 @@ class AuthService
     }
 
     /**
+     * Check user permission
+     */
+    public function hasPermission(string $name): bool
+    {
+        /** @var User $user */
+        $user = auth()->user();
+        return $user->hasPermissionTo($name);
+    }
+
+    /**
      * Revoke user token
      */
     public function revokeToken(): void

@@ -54,7 +54,7 @@ class UserLeaveRepository extends BaseRepository implements IUserLeaveRepository
      */
     public function changeStatus(int $authUserId, int $leaveId, int $status): UserLeave
     {
-        $leave =  $this->model->findById($leaveId);
+        $leave = $this->findById($leaveId);
         $leave->status = $status;
         $leave->approver_id = $authUserId;
         $leave->save();
