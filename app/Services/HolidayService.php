@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use App\Repositories\Interfaces\IHolidayRepository;
+use Illuminate\Database\Eloquent\Collection;
 
 class HolidayService 
 {
@@ -18,7 +19,7 @@ class HolidayService
     /**
      * Get list of holidays
      */
-    public function getHolidays() 
+    public function getHolidays(): Collection
     {
         return $this->holidayRepository->all();
     }
