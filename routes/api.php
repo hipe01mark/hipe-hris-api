@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\ForgotPasswordController;
 use App\Http\Controllers\Api\Auth\VerifyEmailController;
 use App\Http\Controllers\Api\HolidayController;
+use App\Http\Controllers\Api\DepartmentController;
 use App\Http\Controllers\Api\LeaveActionController;
 use App\Http\Controllers\Api\UserAttendanceController;
 use App\Http\Controllers\Api\UserLeaveController;
@@ -61,5 +62,6 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::apiResource('holidays', HolidayController::class)->only(['index']);
+        Route::apiResource('departments', DepartmentController::class)->only(['index']);
     });
 });

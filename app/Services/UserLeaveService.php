@@ -20,7 +20,7 @@ class UserLeaveService
     /**
      * Get list of user leaves by date pagination.
      */
-    public function getLeavesByDate(array $request): Collection
+    public function getByDate(array $request): Collection
     {
         $filters = [
             'start_date' => $request['start_date'] ?? null,

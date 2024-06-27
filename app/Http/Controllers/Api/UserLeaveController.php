@@ -33,7 +33,7 @@ class UserLeaveController extends Controller
     {
         $leaves = $this
             ->userLeaveService
-            ->getLeavesByDate($request->all());
+            ->getByDate($request->all());
 
         return responder()
             ->success($leaves)
