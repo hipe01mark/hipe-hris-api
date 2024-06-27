@@ -36,7 +36,7 @@ class UserRepository extends BaseRepository implements IUserRepository
     /**
      * Get list of user with attendance and date pagination
      */
-    public function getAttendancesByDate(array $filters): Collection
+    public function getByDate(array $filters): Collection
     {
         return $this->model
             ->with(['information', 'attendances' => function ($query) use ($filters) {

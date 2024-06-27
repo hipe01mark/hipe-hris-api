@@ -34,7 +34,7 @@ class UserAttendanceController extends Controller
         return responder()
             ->success(
                 $this->userAttendanceService
-                    ->getAttendancesByDate($filters)
+                    ->getByDate($filters)
             )
             ->respond();
     }

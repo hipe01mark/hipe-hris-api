@@ -29,7 +29,7 @@ class UserAttendanceService
     /**
      * Get list of user with attendance and date pagination
      */
-    public function getAttendancesByDate(array $filters): Collection
+    public function getByDate(array $filters): Collection
     {
         $filters = [
             'start_date' => $filters['start_date'] ?? null,
@@ -39,7 +39,7 @@ class UserAttendanceService
         ];
 
         $listOfUsersWithAttendances = $this->userRepository
-            ->getAttendancesByDate($filters);
+            ->getByDate($filters);
 
         return $listOfUsersWithAttendances;
     }
