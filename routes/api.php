@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\ForgotPasswordController;
 use App\Http\Controllers\Api\Auth\VerifyEmailController;
+use App\Http\Controllers\Api\HolidayController;
 use App\Http\Controllers\Api\LeaveActionController;
 use App\Http\Controllers\Api\UserAttendanceController;
 use App\Http\Controllers\Api\UserLeaveController;
@@ -45,7 +46,7 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::prefix('user')->group(function () {
-            Route::apiResource('attendances', UserAttendanceController::class);
+            Route::apiResource('attendances', UserAttendanceController::class)->only(['index']);
             Route::post('attendances/time-in', [UserAttendanceController::class, 'timeIn']);
             Route::post('attendances/time-out', [UserAttendanceController::class, 'timeOut']);
 
@@ -58,5 +59,7 @@ Route::prefix('v1')->group(function () {
             Route::patch('approve/{leave}', [LeaveActionController::class, 'approve']);
             Route::patch('decline/{leave}', [LeaveActionController::class, 'decline']);
         });
+
+        Route::apiResource('holidays', HolidayController::class)->only(['index']);
     });
 });
