@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Repositories\BaseRepository;
+use App\Repositories\HolidayRepository;
 use App\Repositories\Interfaces\IBaseRepository;
+use App\Repositories\Interfaces\IHolidayRepository;
 use App\Repositories\Interfaces\IPasswordResetRepository;
 use App\Repositories\Interfaces\IUserAttendanceRepository;
 use App\Repositories\Interfaces\IUserLeaveRepository;
@@ -26,6 +28,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(IUserRepository::class, UserRepository::class);
         $this->app->bind(IUserAttendanceRepository::class, UserAttendanceRepository::class);
         $this->app->bind(IUserLeaveRepository::class, UserLeaveRepository::class);
+        $this->app->bind(IHolidayRepository::class, HolidayRepository::class);
     }
 
     /**
