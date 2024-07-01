@@ -29,7 +29,7 @@ return [
     */
 
     'invalid_login' => 'These credentials do not match our records.',
-    'invalid_token' => 'The password reset token has already been used/expired!',
+    'invalid_password_reset_token' => 'The password reset token has already been used/expired!',
     'exceed_login_attempts' => 'Your account has been locked due to 10 failed attempts. It will be unlocked after 10 minutes. Recommend to use forgot password.',
 
 

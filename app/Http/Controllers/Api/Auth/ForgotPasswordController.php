@@ -86,7 +86,7 @@ class ForgotPasswordController extends Controller
             
             if ($reset === Password::INVALID_TOKEN) {
                 return responder()
-                    ->error(HttpCode::INVALID_TOKEN)
+                    ->error(HttpCode::INVALID_PASSWORD_RESET_TOKEN)
                     ->respond(HttpStatus::UNAUTHORIZED);
             }
 

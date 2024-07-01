@@ -21,6 +21,11 @@ class HolidayService
      */
     public function getHolidays(): Collection
     {
-        return $this->holidayRepository->all();
+        $filters = [
+            'start_date' => request()['start_date'] ?? null,
+            'end_date' => request()['end_date'] ?? null
+        ];
+
+        return $this->holidayRepository->getByDate($filters);
     }
 }
