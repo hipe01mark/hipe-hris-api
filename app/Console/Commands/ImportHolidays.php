@@ -6,7 +6,7 @@ use App\Libraries\GoogleCalendarLib;
 use App\Models\Holiday;
 use Illuminate\Console\Command;
 
-class GetHolidays extends Command
+class ImportHolidays extends Command
 {
     CONST JAPANESE_HOLIDAY = [
         'code' => 'japanese',
@@ -26,14 +26,14 @@ class GetHolidays extends Command
      *
      * @var string
      */
-    protected $signature = 'get:holidays';
+    protected $signature = 'import:holidays';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Get holidays of PH and JA using google calendar';
+    protected $description = 'Import holidays of PH and JA using google calendar';
 
     /**
      * Execute the console command.

@@ -5,9 +5,11 @@ namespace App\Rules;
 use App\Services\UserAttendanceService;
 use Illuminate\Contracts\Validation\Rule;
 
-class AlreadyTimedIn implements Rule
+class TimeOutRule implements Rule
 {
+    protected $message;
     protected $userAttendanceService;
+    
 
     /**
      * Create a new rule instance.
@@ -26,9 +28,17 @@ class AlreadyTimedIn implements Rule
         $todayAttendance = $this->userAttendanceService
             ->getTodayAttendance($userId);
 
-        $timeIn = $todayAttendance['time_in'] ?? null;
+        if (!$todayAttendance || ($todayAttendance && $todayAttendance->time_in === null)) {
+            $this->message = 'The user has not yet timed in!';
+            return false;
+        }
 
-        return $timeIn ? false : true;
+        if ($todayAttendance && $todayAttendance->time_out !== null) {
+            $this->message = 'The user has already timed out!';
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -36,6 +46,6 @@ class AlreadyTimedIn implements Rule
      */
     public function message(): string
     {
-        return "The user has already timed in, don't make any modification!";
+        return $this->message;
     }
 }

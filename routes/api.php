@@ -50,7 +50,7 @@ Route::prefix('v1')->group(function () {
         Route::prefix('user')->group(function () {
             Route::apiResource('attendances', UserAttendanceController::class)->only(['index']);
             Route::post('attendances/time-in', [UserAttendanceController::class, 'timeIn']);
-            Route::post('attendances/time-out', [UserAttendanceController::class, 'timeOut']);
+            Route::patch('attendances/time-out', [UserAttendanceController::class, 'timeOut']);
 
             Route::apiResource('leaves', UserLeaveController::class)->parameters([
                 'leaves' => 'leave',

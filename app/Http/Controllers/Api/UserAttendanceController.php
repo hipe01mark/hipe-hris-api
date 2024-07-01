@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Constants\Locations;
 use App\Events\AttendanceUpdated;
 use App\Http\Requests\Api\UserAttendanceRequest;
 use Illuminate\Routing\Controller;
@@ -50,13 +51,13 @@ class UserAttendanceController extends Controller
 
             $log = $this
                 ->userAttendanceService
-                ->timeInWFH($userId);
+                ->timeLog($userId, Locations::WFH);
 
             $userAttendance = $log->user->load(['attendances', 'information']);
             event(new AttendanceUpdated($userAttendance));
             
             return responder()
-                ->success($userAttendance)
+                ->success($log)
                 ->respond(); 
         });
     }
@@ -65,14 +66,14 @@ class UserAttendanceController extends Controller
      * Save time out of the user based
      * on current time.
      */
-    public function timeOut(): JsonResponse
+    public function timeOut(UserAttendanceRequest $request): JsonResponse
     {
         return $this->runInTransaction(function () {
             $userId = auth()->user()->id;
 
             $log = $this
                 ->userAttendanceService
-                ->timeOutWFH($userId);
+                ->timeLog($userId, Locations::WFH, true);
 
             $userAttendance = $log->user->load(['attendances', 'information']);
             event(new AttendanceUpdated($userAttendance));

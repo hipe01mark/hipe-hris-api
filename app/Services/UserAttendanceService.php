@@ -1,12 +1,10 @@
 <?php
 namespace App\Services;
 
-use App\Constants\Locations;
 use App\Repositories\Interfaces\IUserRepository;
 use App\Models\UserAttendance;
 use App\Repositories\Interfaces\IUserAttendanceRepository;
 use Carbon\Carbon;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
 class UserAttendanceService 
@@ -45,27 +43,32 @@ class UserAttendanceService
     }
 
     /**
-     * Save user attendance.
+     * Save time out of the user based on today's
+     * date and time in of the user.
      */
-    public function save(int $userId, array $attendance): UserAttendance
+    public function timeLog(int $userId, int $location, bool $isTimeOut = false): UserAttendance
     {
-        $conditionData = [
-            'id' => $attendance['id'] ?? null,
-            'user_id' => $userId,
-            'date' => $attendance['date'],
-        ];
+        $todayAttendance = $this->getTodayAttendance($userId);
 
-        $data = [
-            'user_id' => $userId,
-            'date' => $attendance['date'],
-            'time_in' => $attendance['time_in'],
-            'time_out' => $attendance['time_out'] ?? null,
-            'state' => $attendance['state'] ?? null,
-            'location' => $attendance['location']
+        $conditionData = [
+            'id' => $todayAttendance->id ?? null
         ];
         
+        $attendanceRequest = [
+            'user_id' => $userId,
+            'date' => Carbon::now(),
+        ];
+        
+        if ($isTimeOut) {
+            $attendanceRequest['time_out'] = Carbon::now(); 
+            $attendanceRequest['out_location'] = $location; 
+        } else if(!$isTimeOut) {
+            $attendanceRequest['time_in'] = Carbon::now(); 
+            $attendanceRequest['in_location'] = $location; 
+        }
+
         return $this->userAttendanceRepository
-            ->updateOrCreate($conditionData, $data);
+            ->updateOrCreate($conditionData, $attendanceRequest);
     }
 
     /** 
@@ -75,41 +78,6 @@ class UserAttendanceService
     {
         return $this->userAttendanceRepository
             ->findById($attendanceId);
-    }
-
-    /**
-     * Save time in of the user.
-     */
-    public function timeInWFH(int $userId): UserAttendance
-    {
-        $attendanceRequest = [
-            'user_id' => $userId,
-            'date' => Carbon::now(),
-            'time_in' => Carbon::now(),
-            'location' => Locations::WFH
-        ];
-
-        return $this->userAttendanceRepository->create($attendanceRequest);
-    }
-
-    /**
-     * Save time out of the user based on today's date and time in of the user.
-     */
-    public function timeOutWFH(int $userId): UserAttendance
-    {
-        $todayAttendance = $this->getTodayAttendance($userId);
-
-        $attendanceRequest = [
-            'user_id' => $userId,
-            'date' => Carbon::now(),
-            'time_out' => Carbon::now(),
-            'location' => Locations::WFH
-        ];
-
-        return $this->userAttendanceRepository->updateOrCreate(
-            ['id' => $todayAttendance->id ?? null],
-            $attendanceRequest
-        );
     }
 
     /**

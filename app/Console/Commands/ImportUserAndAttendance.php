@@ -105,12 +105,16 @@ class ImportUserAndAttendance extends Command
                         'date' => Carbon::parse($timeInsAndTimeOut->first()['timestamp'])->format('Y-m-d'),
                         'time_in' => $timeInsAndTimeOut->first()['timestamp'],
                         'time_out' => $this->getTimeOut($timeInsAndTimeOut),
-                        'state' => $timeInsAndTimeOut->first()['state'],
-                        'location' => Locations::OFFICE
+                        'in_location' => Locations::OFFICE,
+                        'out_location' => Locations::OFFICE
                     ];
     
                     $this->userAttendanceService
-                        ->save($userId, $attendanceArray);
+                        ->userAttendanceRepository
+                        ->updateOrCreate([
+                            'id' => $attendanceArray['id'],
+                            'date' => Carbon::parse($timeInsAndTimeOut->first()['timestamp'])->format('Y-m-d')
+                        ], $attendanceArray);
                 }
             }
         }

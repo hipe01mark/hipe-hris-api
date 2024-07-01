@@ -19,8 +19,8 @@ class CreateUserAttendancesTable extends Migration
             $table->date('date');
             $table->time('time_in')->nullable();
             $table->time('time_out')->nullable();
-            $table->tinyInteger('state')->nullable();
-            $table->tinyInteger('location');
+            $table->tinyInteger('in_location')->nullable();
+            $table->tinyInteger('out_location')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

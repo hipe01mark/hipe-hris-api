@@ -2,16 +2,11 @@
 
 namespace App\Http\Requests\Api;
 
-use App\Constants\Define\HttpCode;
-use App\Constants\Define\HttpStatus;
 use App\Constants\InitialApprovers;
 use App\Constants\LeaveTypes;
-use App\Rules\DateRangeExists;
+use App\Rules\DateRangeExistsRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UserLeaveRequest extends FormRequest
 {
@@ -36,7 +31,7 @@ class UserLeaveRequest extends FormRequest
         }
 
         if (in_array(request()->method(), ['POST', 'PUT', 'PATCH'])) {
-            $dateRangeExists = new DateRangeExists(
+            $dateRangeExists = new DateRangeExistsRule(
                 'user_leaves', 'leave', 'start_date', 'end_date', 'user_id'
             );
 
@@ -69,25 +64,5 @@ class UserLeaveRequest extends FormRequest
         }
 
         return [];
-    }
-
-    /**
-     * Handles validation error
-     */
-    protected function failedValidation(Validator $validator): void
-    {
-        if ($this->expectsJson()) {
-            $errors = (new ValidationException($validator))->errors();
-            throw new HttpResponseException(
-                responder()
-                    ->error(HttpCode::VALIDATION_FAILED, trans('validation.failed'))
-                    ->data([
-                        'validation_errors' => $errors
-                    ])
-                    ->respond(HttpStatus::MISDIRECTED_REQUEST)
-            );
-        }
-
-        parent::failedValidation($validator);
     }
 }

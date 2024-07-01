@@ -5,7 +5,7 @@ namespace App\Rules;
 use App\Models\UserLeave;
 use Illuminate\Contracts\Validation\Rule;
 
-class DateRangeExists implements Rule
+class DateRangeExistsRule implements Rule
 {
     protected $table;
     protected $routeIdName;
