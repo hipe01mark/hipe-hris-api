@@ -2,12 +2,13 @@
 
 namespace App\Services;
 
-use App\Constants\Roles;
-use App\Events\EmailVerificationConfirmed;
 use App\Models\User;
-use App\Repositories\Interfaces\IUserRepository;
+use App\Constants\Roles;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Hash;
+use App\Events\EmailVerificationConfirmed;
+use Illuminate\Pagination\LengthAwarePaginator;
+use App\Repositories\Interfaces\IUserRepository;
 
 class UserService
 {
@@ -74,5 +75,22 @@ class UserService
 
         $user->assignRole($userInformation['role_id'] ?? Roles::USER);
         return $user;
+    }
+
+    /**
+     * Get list of user list.
+     */
+    public function getList(): LengthAwarePaginator
+    {
+        return $this->userRepository
+            ->getList();
+    }
+
+    /**
+     * Delete a user by ID.
+     */
+    public function deleteById(int $id): bool
+    {
+        return $this->userRepository->deleteById($id);
     }
 }

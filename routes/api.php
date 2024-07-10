@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\LeaveActionController;
 use App\Http\Controllers\Api\PositionController;
 use App\Http\Controllers\Api\UserAttendanceController;
 use App\Http\Controllers\Api\UserLeaveController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -55,6 +56,11 @@ Route::prefix('v1')->group(function () {
             Route::apiResource('leaves', UserLeaveController::class)->parameters([
                 'leaves' => 'leave',
             ]);
+            Route::get('informations', [UserController::class, 'index']);
+            Route::post('store', [UserController::class, 'store']);
+            Route::patch('/update/{userId}', [UserController::class, 'update']);
+            Route::delete('delete/{userId}', [UserController::class, 'destroy']);
+
         });
 
         Route::prefix('leave-action')->group(function () {
