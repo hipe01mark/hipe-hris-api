@@ -13,6 +13,9 @@ class CreateUserAddressTable extends Migration
     {
         Schema::create('user_addresses', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->index('user_address_user_id_foreign');
+            $table->foreign('user_id')->references('id')->on('users');
+
             $table->string('country');
             $table->string('province');
             $table->string('city');

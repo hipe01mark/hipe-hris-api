@@ -24,9 +24,6 @@ class CreateUserInformationTable extends Migration
             $table->unsignedBigInteger('branch_id')->index('user_information_branch_id_foreign');
             $table->foreign('branch_id')->references('id')->on('branches');
 
-            $table->unsignedBigInteger('address_id')->nullable()->index('user_information_address_id_foreign');
-            $table->foreign('address_id')->references('id')->on('user_addresses');
-
             $table->unsignedBigInteger('status_id')->index('user_information_status_id_foreign')->default(4);
             $table->foreign('status_id')->references('id')->on('statuses');
             
