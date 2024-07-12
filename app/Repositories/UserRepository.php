@@ -85,6 +85,7 @@ class UserRepository extends BaseRepository implements IUserRepository
                 'information.position',
                 'information.branch',
                 'information.status',
+                'information.address'
             ])
             ->where(function ($query) use ($search) {
                 if ($search) {
