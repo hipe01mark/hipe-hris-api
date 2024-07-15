@@ -76,9 +76,9 @@ class UserInformation extends Model
     /**
      * Get the addresses associated to the user information.
      */
-    public function address(): HasMany
+    public function addresses(): HasMany
     {
-        return $this->hasMany(UserAddress::class, 'id', 'address_id');
+        return $this->hasMany(UserAddress::class, 'user_id');
     }
 
     /**
