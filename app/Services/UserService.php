@@ -36,7 +36,7 @@ class UserService
         }
         
         if ($this->userRepository->isTokenExpired()) {
-            return 'Your email verification is already expired. Please resend a new email verification using the app!';
+            return 'Your email verification has expired. Please resend a new email verification using the app!';
         }
 
         if ($user->hasVerifiedEmail()) {
