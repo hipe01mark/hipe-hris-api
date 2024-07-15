@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
-use App\Constants\Define\HttpStatus;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
+
 use App\Services\AuthService;
 use App\Services\UserService;
 use App\Traits\HandlesTransactionTrait;
-use Exception;
+use Illuminate\Routing\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 class VerifyEmailController extends Controller
@@ -21,10 +20,7 @@ class VerifyEmailController extends Controller
     /**
      * Constructor
      */
-    public function __construct(
-        AuthService $authService, 
-        UserService $userService
-    )
+    public function __construct(AuthService $authService, UserService $userService)
     {
         $this->authService = $authService;
         $this->userService = $userService;
@@ -55,7 +51,7 @@ class VerifyEmailController extends Controller
     {
         return $this->runWithoutTransaction(function() use ($request) {
             $userId = $request->route('id');
-            $message = $this->userService->verifyEmail($userId);
+            $message = $this->userService->verifyEmail($userId, true);
 
             return responder()
                 ->success(['message' => $message])

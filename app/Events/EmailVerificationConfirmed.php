@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
@@ -12,14 +13,14 @@ class EmailVerificationConfirmed implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     
-    public $email;
+    public $user;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(string $email)
+    public function __construct(User $user)
     {
-        $this->email = $email;
+        $this->user = $user;
     }
 
     /**
@@ -36,7 +37,7 @@ class EmailVerificationConfirmed implements ShouldBroadcast
     public function broadcastWith(): array
     {
         return [
-            'email' => $this->email
+            'user' => $this->user
         ];
     }
 
@@ -47,6 +48,6 @@ class EmailVerificationConfirmed implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('email-verification-confirmed.' . $this->email);
+        return new Channel('email-verification-confirmed.' . $this->user->email);
     }
 }

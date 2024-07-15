@@ -27,25 +27,25 @@ class UserService
      * 
      * NOTE: Fix response (to follow)
      */
-    public function verifyEmail(int $userId): string
+    public function verifyEmail(int $userId, bool $markAsVerified = false): string
     {
         $user = $this->userRepository->findById($userId);
 
         if (!$user) {
             return 'User not found.';
         }
+        
+        if ($this->userRepository->isTokenExpired()) {
+            return 'Your email verification is already expired. Please resend a new email verification using the app!';
+        }
 
         if ($user->hasVerifiedEmail()) {
             return 'Your email address is already verified. Go back to app';
         }
 
-        if ($this->userRepository->isTokenExpired()) {
-            return 'Your email verification is already expired. Please resend a new email verification using the app!';
-        }
-
-        if ($user->markEmailAsVerified()) {
-            $email = $user->email;
-            event(new EmailVerificationConfirmed($email));
+        if ($markAsVerified === true) {;
+            $user->markEmailAsVerified();
+            event(new EmailVerificationConfirmed($user));
             event(new Verified($user));
 
             return 'Your email address has been verified. Go back to app';
@@ -71,7 +71,8 @@ class UserService
 
         $user = $this
             ->userRepository
-            ->updateOrCreate($conditionData, $data);
+            ->model
+            ->firstOrCreate($conditionData, $data);
 
         $user->assignRole($userInformation['role_id'] ?? Roles::USER);
         return $user;
