@@ -8,11 +8,16 @@ class DatabaseSeeder extends Seeder
 {
     /**
      * Seed the application's database.
-     *
-     * @return void
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        $this->call(RolesTableSeeder::class);
+        $this->call(PermissionsTableSeeder::class);
+        $this->call(ApproverPermissionSeeder::class);
+        $this->call(DepartmentsTableSeeder::class);
+        $this->call(PositionsTableSeeder::class);
+        $this->call(PassportTableSeeder::class);
+        $this->call(BranchesTableSeeder::class);
+        $this->call(StatusesTableSeeder::class);
     }
 }

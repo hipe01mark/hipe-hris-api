@@ -1,5 +1,6 @@
 <?php
 
+use App\Broadcasting\UserChannel;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -13,6 +14,8 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
-});
+Broadcast::channel('reset-password-confirmed.{email}', UserChannel::class);
+Broadcast::channel('email-verification-confirmed.{email}', UserChannel::class);
+Broadcast::channel('attendance-updated', UserChannel::class);
+Broadcast::channel('leave-updated', UserChannel::class);
+Broadcast::channel('leave-deleted', UserChannel::class);

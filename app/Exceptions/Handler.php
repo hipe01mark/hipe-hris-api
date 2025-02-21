@@ -2,7 +2,13 @@
 
 namespace App\Exceptions;
 
+use App\Constants\Define\HttpCode;
+use App\Constants\Define\HttpStatus;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -13,7 +19,9 @@ class Handler extends ExceptionHandler
      * @var array<int, class-string<Throwable>>
      */
     protected $dontReport = [
-        //
+        AuthenticationException::class,
+        AuthorizationException::class,
+        ValidationException::class
     ];
 
     /**
@@ -37,5 +45,37 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    /**
+     * Render an exception into an HTTP response.
+     */
+    public function render($request, Throwable $exception)
+    {
+        if ($exception instanceof AuthenticationException) {
+            return responder()
+                ->error(HttpCode::UNAUTHENTICATED)
+                ->respond(HttpStatus::FORBIDDEN);
+        }
+
+        if ($exception instanceof AuthorizationException) {
+            return responder()
+                ->error(HttpCode::UNAUTHORIZED, $exception->getMessage())
+                ->respond(HttpStatus::UNAUTHORIZED);
+        }
+
+        if ($exception instanceof ValidationException) {
+            $errors = $exception->validator->messages();
+            throw new HttpResponseException(
+                responder()
+                    ->error(HttpCode::VALIDATION_FAILED, trans('validation.failed'))
+                    ->data([
+                        'validation_errors' => $errors
+                    ])
+                    ->respond(HttpStatus::MISDIRECTED_REQUEST)
+            );
+        }
+
+        return parent::render($request, $exception);
     }
 }

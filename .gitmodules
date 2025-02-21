@@ -1,0 +1,3 @@
+[submodule "public/hris-option-lists"]
+	path = public/hris-option-lists
+	url = https://github.com/hipe-japan-inc/hris-option-lists.git
