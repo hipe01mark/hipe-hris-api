@@ -97,7 +97,8 @@ class UserRequest extends FormRequest
                 'min:10',
                 'numeric',
                 Rule::unique('user_information')->ignore($id, 'user_id')
-            ]
+            ],
+            'password' => 'required|confirmed'
         ];
     }
 
